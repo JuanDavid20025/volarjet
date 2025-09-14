@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VolarJet · Modificar mi vuelo</title>
+    <!-- Iconos (opcional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        :root {
+            --bg: #0c1445;
+            --accent: #00d87e;
+            --text-dark: #0c1445;
+            --text-light: #ffffff;
+            --card: #ffffff;
+            --muted: #f2f4f7;
+            --shadow: 0 8px 24px rgba(0, 0, 0, .15);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            color: var(--text-dark);
+            background: linear-gradient(to bottom, var(--bg) 20%, var(--accent) 60%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 100px;
+        }
+
+        .visually-hidden {
+            position: absolute !important;
+            clip: rect(1px, 1px, 1px, 1px);
+            padding: 0;
+            border: 0;
+            height: 1px;
+            width: 1px;
+            overflow: hidden
+        }
+
+        /* Header */
+        .vj-header {
+            margin: 140px 0 8px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .vj-logo {
+            width: min(360px, 70vw);
+            height: auto;
+            display: block;
+            margin: 0 auto 8px;
+            filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .25));
+        }
+
+        .vj-title {
+            font-size: clamp(22px, 3.6vw, 28px);
+            font-weight: 800;
+        }
+
+        /* Layout principal */
+        .vj-main {
+            width: min(960px, 92vw);
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 1fr;
+        }
+
+        /* Tarjetas */
+        .vj-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 18px;
+        }
+
+        .vj-card-title {
+            margin: 0 0 10px;
+            font-size: 18px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .vj-flight p {
+            margin: 4px 0;
+        }
+
+        /* Formulario */
+        .vj-form {
+            display: grid;
+            gap: 14px;
+        }
+
+        .vj-mod-types {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .vj-mod-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 12px;
+            background: var(--muted);
+            cursor: pointer;
+            border: 2px solid transparent;
+            user-select: none;
+        }
+
+        .vj-mod-type input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        .vj-mod-type:hover {
+            border-color: rgba(0, 0, 0, .08);
+        }
+
+        .vj-subform {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .vj-subtitle {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .vj-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr;
+        }
+
+        .vj-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .vj-field input,
+        .vj-field select {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #d0d5dd;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .vj-field input:focus,
+        .vj-field select:focus {
+            box-shadow: 0 0 0 3px rgba(0, 216, 126, .25);
+        }
+
+        /* Mapa de asientos */
+        .vj-seatmap {
+            margin-top: 8px;
+            display: grid;
+            grid-template-columns: repeat(6, 44px);
+            gap: 8px;
+        }
+
+        .vj-seat {
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid #d0d5dd;
+            background: #fff;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .vj-seat.selected {
+            outline: 3px solid rgba(0, 216, 126, .35);
+            border-color: var(--accent);
+        }
+
+        .vj-seat[disabled] {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        /* Resumen */
+        .vj-summary {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .vj-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 4px;
+        }
+
+        .vj-note {
+            color: #64748b;
+        }
+
+        /* Botones */
+        .vj-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            padding: 14px;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 22px rgba(0, 216, 126, .35);
+        }
+
+        .vj-btn.ghost {
+            background: transparent;
+            color: var(--text-dark);
+            border: 2px dashed #d0d5dd;
+            box-shadow: none;
+        }
+
+        .vj-btn:hover {
+            filter: brightness(.95);
+        }
+
+        .vj-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Mensajes */
+        .vj-msg {
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .vj-msg.success {
+            color: #0a8f5f;
+        }
+
+        .vj-msg.error {
+            color: #c0392b;
+        }
+
+        /* Footer */
+        .vj-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--bg);
+            color: #fff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, .3);
+        }
+
+        .vj-footer a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .vj-footer i {
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        @media (min-width:900px) {
+            .vj-main {
+                grid-template-columns: .9fr 1.1fr;
+            }
+
+            .vj-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .vj-mod-types {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="vj-header">
+        <img src="img/logo.png" alt="VolarJet" class="vj-logo" />
+        <h1 class="vj-title">Modificar mi vuelo</h1>
+    </header>
+
+    <main class="vj-main">
+        <!-- Resumen del vuelo (placeholders para evidencia) -->
+        <section class="vj-card vj-flight">
+            <h2 class="vj-card-title"><i class="fa-solid fa-plane-departure"></i> Resumen del vuelo</h2>
+            <p><strong>Código:</strong> VJ 302 · <strong>Fecha:</strong> 2025-09-20</p>
+            <p><strong>Ruta:</strong> BOG → MDE · <strong>Pasajero:</strong> Juan Perez</p>
+            <p><strong>Incluye:</strong> 1 artículo personal + 1 equipaje de mano (10 kg)</p>
+        </section>
+
+        <!-- Centro de modificaciones -->
+        <section class="vj-card">
+            <h2 class="vj-card-title"><i class="fa-solid fa-sliders"></i> ¿Qué deseas modificar?</h2>
+
+            <form id="formModificar" class="vj-form" novalidate>
+                <div class="vj-mod-types" role="radiogroup" aria-label="Tipo de modificación">
+                    <label class="vj-mod-type">
+                        <input type="radio" name="tipo" value="fecha" />
+                        <span><i class="fa-regular fa-calendar-days"></i> Fecha / hora</span>
+                    </label>
+                    <label class="vj-mod-type">
+                        <input type="radio" name="tipo" value="asiento" />
+                        <span><i class="fa-solid fa-chair"></i> Selección de asiento</span>
+                    </label>
+                    <label class="vj-mod-type">
+                        <input type="radio" name="tipo" value="contacto" />
+                        <span><i class="fa-solid fa-address-book"></i> Datos de contacto</span>
+                    </label>
+                </div>
+
+                <!-- Subform: Fecha/Hora -->
+                <div class="vj-subform" id="sf-fecha" hidden>
+                    <h3 class="vj-subtitle"><i class="fa-regular fa-clock"></i> Cambio de fecha / hora</h3>
+                    <div class="vj-grid">
+                        <label class="vj-field">
+                            <span>Nueva fecha</span>
+                            <input type="date" id="nvFecha" required />
+                        </label>
+                        <label class="vj-field">
+                            <span>Nueva hora</span>
+                            <input type="time" id="nvHora" required />
+                        </label>
+                    </div>
+                    <button type="button" class="vj-btn ghost" id="btnDisponibilidad">
+                        <i class="fa-solid fa-magnifying-glass"></i> Buscar disponibilidad
+                    </button>
+                    <p id="msjDisponibilidad" class="vj-msg" aria-live="polite"></p>
+                </div>
+
+                <!-- Subform: Asiento -->
+                <div class="vj-subform" id="sf-asiento" hidden>
+                    <h3 class="vj-subtitle"><i class="fa-solid fa-chair"></i> Selección de asiento</h3>
+                    <label class="vj-field">
+                        <span>Preferencia</span>
+                        <select id="prefAsiento">
+                            <option value="std">Estándar (sin preferencia)</option>
+                            <option value="ventana">Ventana</option>
+                            <option value="pasillo">Pasillo</option>
+                            <option value="salida">Fila salida de emergencia</option>
+                        </select>
+                    </label>
+                    <div class="vj-seatmap" id="seatMap" aria-label="Mapa de asientos"></div>
+                    <p id="msjAsiento" class="vj-msg" aria-live="polite"></p>
+                </div>
+
+                <!-- Subform: Contacto -->
+                <div class="vj-subform" id="sf-contacto" hidden>
+                    <h3 class="vj-subtitle"><i class="fa-solid fa-address-book"></i> Actualizar contacto</h3>
+                    <div class="vj-grid">
+                        <label class="vj-field">
+                            <span>Correo electrónico</span>
+                            <input type="email" id="ctEmail" placeholder="nombre@correo.com" required />
+                        </label>
+                        <label class="vj-field">
+                            <span>Teléfono</span>
+                            <input type="tel" id="ctTelefono" placeholder="+57 300 000 0000" required />
+                        </label>
+                    </div>
+                    <p class="vj-note">Sin cargo. Se usará para notificaciones del vuelo.</p>
+                </div>
+
+                <!-- Resumen de cargo (simulado) -->
+                <div class="vj-summary" aria-live="polite">
+                    <div class="vj-row"><span>Posible cargo</span> <strong id="vjCargo">$0</strong></div>
+                    <small class="vj-note">Valores de prueba para evidencia académica.</small>
+                </div>
+
+                <button type="submit" class="vj-btn">
+                    <i class="fa-solid fa-circle-check"></i> Continuar
+                </button>
+                <p id="vjMsg" class="vj-msg" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="vj-footer">
+        <a href="#"><i class="fa-solid fa-home"></i><span>Inicio</span></a>
+        <a href="#"><i class="fa-solid fa-plane"></i><span>Vuelos</span></a>
+        <a href="#"><i class="fa-solid fa-tags"></i><span>Ofertas</span></a>
+        <a href="#"><i class="fa-solid fa-calendar-check"></i><span>Reservar</span></a>
+        <a href="#"><i class="fa-solid fa-user"></i><span>Perfil</span></a>
+    </footer>
+
+    <script>
+        (function () {
+            const fmtCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+            const $ = (s, p = document) => p.querySelector(s);
+            const $$ = (s, p = document) => [...p.querySelectorAll(s)];
+            document.addEventListener('DOMContentLoaded', () => {
+                const form = $('#formModificar');
+                const radios = $$('input[name="tipo"]', form);
+                const sfFecha = $('#sf-fecha');
+                const sfAsiento = $('#sf-asiento');
+                const sfContacto = $('#sf-contacto');
+
+                const vjCargo = $('#vjCargo');
+                const vjMsg = $('#vjMsg');
+
+                // Subform Fecha
+                const nvFecha = $('#nvFecha');
+                const nvHora = $('#nvHora');
+                const btnDisp = $('#btnDisponibilidad');
+                const msjDisp = $('#msjDisponibilidad');
+
+                // Subform Asiento
+                const prefAsiento = $('#prefAsiento');
+                const seatMap = $('#seatMap');
+                const msjAsiento = $('#msjAsiento');
+                let asientoSeleccionado = null;
+
+                // Mostrar subform activo
+                function showSubform(tipo) {
+                    sfFecha.hidden = tipo !== 'fecha';
+                    sfAsiento.hidden = tipo !== 'asiento';
+                    sfContacto.hidden = tipo !== 'contacto';
+                    vjMsg.textContent = '';
+                    msjDisp.textContent = '';
+                    msjAsiento.textContent = '';
+                    actualizarCargo();
+                }
+                radios.forEach(r => r.addEventListener('change', () => showSubform(r.value)));
+
+                // Cargos simulados
+                function cargoCambioFecha(fechaStr) {
+                    if (!fechaStr) return 0;
+                    const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+                    const sel = new Date(fechaStr + 'T00:00:00');
+                    const diff = Math.ceil((sel - hoy) / (1000 * 60 * 60 * 24));
+                    const finde = [0, 6].includes(sel.getDay());
+                    if (diff <= 7) return 90000;
+                    return finde ? 60000 : 30000;
+                }
+                const cargoAsiento = { std: 0, ventana: 15000, pasillo: 15000, salida: 40000 };
+
+                // Mapa de asientos (6x8: A–F, 1–8)
+                function renderSeatMap() {
+                    seatMap.innerHTML = '';
+                    const filas = 8, cols = 6, letras = ['A', 'B', 'C', 'D', 'E', 'F'];
+                    for (let f = 1; f <= filas; f++) {
+                        for (let c = 0; c < cols; c++) {
+                            const b = document.createElement('button');
+                            b.type = 'button'; b.className = 'vj-seat'; b.textContent = f + letras[c];
+                            // Deshabilitar algunos para demo
+                            const disabled = (f === 2 && (c === 2 || c === 3)) || (f === 5 && c === 0);
+                            if (disabled) b.disabled = true;
+                            b.addEventListener('click', () => {
+                                $$('.vj-seat.selected', seatMap).forEach(x => x.classList.remove('selected'));
+                                b.classList.add('selected');
+                                asientoSeleccionado = b.textContent;
+                                msjAsiento.textContent = 'Asiento seleccionado: ' + asientoSeleccionado;
+                                msjAsiento.className = 'vj-msg success';
+                                actualizarCargo();
+                            });
+                            seatMap.appendChild(b);
+                        }
+                    }
+                }
+                renderSeatMap();
+
+                // Buscar disponibilidad (demo)
+                btnDisp.addEventListener('click', () => {
+                    if (!nvFecha.value || !nvHora.value) {
+                        msjDisp.textContent = 'Selecciona fecha y hora.';
+                        msjDisp.className = 'vj-msg error';
+                        return;
+                    }
+                    msjDisp.textContent = 'Hay disponibilidad en la fecha/horario elegido.';
+                    msjDisp.className = 'vj-msg success';
+                    vjCargo.textContent = fmtCOP.format(cargoCambioFecha(nvFecha.value));
+                });
+
+                [nvFecha, nvHora].forEach(i => i.addEventListener('change', actualizarCargo));
+                prefAsiento.addEventListener('change', actualizarCargo);
+
+                function actualizarCargo() {
+                    const tipo = (radios.find(r => r.checked) || {}).value;
+                    let cargo = 0;
+                    if (tipo === 'fecha') {
+                        cargo = cargoCambioFecha(nvFecha.value || '');
+                    } else if (tipo === 'asiento') {
+                        cargo = cargoAsiento[prefAsiento.value] || 0;
+                        if (prefAsiento.value === 'salida' && asientoSeleccionado && !/^2[ABCDEF]$/.test(asientoSeleccionado)) {
+                            msjAsiento.textContent = 'Para salida de emergencia, selecciona fila 2.';
+                            msjAsiento.className = 'vj-msg error';
+                        }
+                    } else {
+                        cargo = 0; // contacto
+                    }
+                    vjCargo.textContent = fmtCOP.format(cargo);
+                    return cargo;
+                }
+
+                // Submit
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const tipo = (radios.find(r => r.checked) || {}).value;
+                    if (!tipo) { vjMsg.textContent = 'Selecciona un tipo de modificación.'; vjMsg.className = 'vj-msg error'; return; }
+
+                    if (tipo === 'fecha') {
+                        if (!nvFecha.value || !nvHora.value) { vjMsg.textContent = 'Completa fecha y hora.'; vjMsg.className = 'vj-msg error'; return; }
+                    }
+                    if (tipo === 'asiento' && !asientoSeleccionado) {
+                        vjMsg.textContent = 'Selecciona un asiento.'; vjMsg.className = 'vj-msg error'; return;
+                    }
+                    if (tipo === 'contacto') {
+                        const email = $('#ctEmail').value.trim();
+                        const tel = $('#ctTelefono').value.trim();
+                        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+                        if (!isEmail || !tel) { vjMsg.textContent = 'Verifica correo y teléfono.'; vjMsg.className = 'vj-msg error'; return; }
+                    }
+
+                    const cargo = actualizarCargo();
+                    vjMsg.textContent = 'Modificación registrada. Posible cargo: ' + fmtCOP.format(cargo);
+                    vjMsg.className = 'vj-msg success';
+                    // Aquí conectar con backend/pagos si aplica
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>

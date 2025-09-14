@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VolarJet · Modificar mi vuelo</title>
+    <link rel="stylesheet" href="modificar-vuelo.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+
+<body>
+    <header class="vj-header">
+        <img src="img/logo.png" alt="VolarJet" class="vj-logo" />
+        <h1 class="vj-title">Modificar mi vuelo</h1>
+    </header>
+    <main class="vj-main">
+        <section class="vj-card vj-flight">
+            <h2 class="vj-card-title"><i class="fa-solid fa-plane-departure"></i> Resumen del vuelo</h2>
+            <p><strong>Código:</strong> VJ 302 · <strong>Fecha:</strong> 2025-09-20</p>
+            <p><strong>Ruta:</strong> BOG → MDE · <strong>Pasajero:</strong> Juan Perez</p>
+            <p><strong>Incluye:</strong> 1 artículo personal + 1 equipaje de mano (10 kg)</p>
+        </section>
+        <section class="vj-card">
+            <h2 class="vj-card-title"><i class="fa-solid fa-sliders"></i> ¿Qué deseas modificar?</h2>
+            <form id="formModificar" class="vj-form" novalidate>
+                <div class="vj-mod-types" role="radiogroup" aria-label="Tipo de modificación">
+                    <label class="vj-mod-type">
+                        <input type="radio" name="tipo" value="fecha" />
+                        <span><i class="fa-regular fa-calendar-days"></i> Fecha / hora</span>
+                    </label>
+                    <label class="vj-mod-type">
+                        <input type="radio" name="tipo" value="asiento" />
+                        <span><i class="fa-solid fa-chair"></i> Selección de asiento</span>
+                    </label>
+                    <label class="vj-mod-type">
+                        <input type="radio" name="tipo" value="contacto" />
+                        <span><i class="fa-solid fa-address-book"></i> Datos de contacto</span>
+                    </label>
+                </div>
+
+                <!-- Subformulario: Cambio de fecha/hora -->
+                <div class="vj-subform" id="sf-fecha" hidden>
+                    <h3 class="vj-subtitle"><i class="fa-regular fa-clock"></i> Cambio de fecha / hora</h3>
+                    <div class="vj-grid">
+                        <label class="vj-field">
+                            <span>Nueva fecha</span>
+                            <input type="date" id="nvFecha" required />
+                        </label>
+                        <label class="vj-field">
+                            <span>Nueva hora</span>
+                            <input type="time" id="nvHora" required />
+                        </label>
+                    </div>
+                    <button type="button" class="vj-btn ghost" id="btnDisponibilidad">
+                        <i class="fa-solid fa-magnifying-glass"></i> Buscar disponibilidad
+                    </button>
+                    <p id="msjDisponibilidad" class="vj-msg" aria-live="polite"></p>
+                </div>
+
+                <!-- Subformulario: Cambio de asiento -->
+                <div class="vj-subform" id="sf-asiento" hidden>
+                    <h3 class="vj-subtitle"><i class="fa-solid fa-chair"></i> Selección de asiento</h3>
+
+                    <label class="vj-field">
+                        <span>Preferencia</span>
+                        <select id="prefAsiento">
+                            <option value="std">Estándar (sin preferencia)</option>
+                            <option value="ventana">Ventana</option>
+                            <option value="pasillo">Pasillo</option>
+                            <option value="salida">Fila salida de emergencia</option>
+                        </select>
+                    </label>
+
+                    <!-- Mapa de asientos simplificado -->
+                    <div class="vj-seatmap" id="seatMap" aria-label="Mapa de asientos"></div>
+                    <p id="msjAsiento" class="vj-msg" aria-live="polite"></p>
+                </div>
+
+                <!-- Subformulario: Actualizar contacto -->
+                <div class="vj-subform" id="sf-contacto" hidden>
+                    <h3 class="vj-subtitle"><i class="fa-solid fa-address-book"></i> Actualizar contacto</h3>
+                    <div class="vj-grid">
+                        <label class="vj-field">
+                            <span>Correo electrónico</span>
+                            <input type="email" id="ctEmail" placeholder="nombre@correo.com" required />
+                        </label>
+                        <label class="vj-field">
+                            <span>Teléfono</span>
+                            <input type="tel" id="ctTelefono" placeholder="+57 300 000 0000" required />
+                        </label>
+                    </div>
+                    <p class="vj-note">Sin cargo. Se usará para notificaciones del vuelo.</p>
+                </div>
+
+                <!-- Resumen de cargo simulado -->
+                <div class="vj-summary" aria-live="polite">
+                    <div class="vj-row"><span>Posible cargo</span> <strong id="vjCargo">$0</strong></div>
+                    <small class="vj-note">Valores de prueba para evidencia académica.</small>
+                </div>
+
+                <button type="submit" class="vj-btn">
+                    <i class="fa-solid fa-circle-check"></i> Continuar
+                </button>
+                <p id="vjMsg" class="vj-msg" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer class="vj-footer">
+        <a href="#"><i class="fa-solid fa-home"></i><span>Inicio</span></a>
+        <a href="#"><i class="fa-solid fa-plane"></i><span>Vuelos</span></a>
+        <a href="#"><i class="fa-solid fa-tags"></i><span>Ofertas</span></a>
+        <a href="#"><i class="fa-solid fa-calendar-check"></i><span>Reservar</span></a>
+        <a href="#"><i class="fa-solid fa-user"></i><span>Perfil</span></a>
+    </footer>
+
+    <script src="modificar-vuelo.js"></script>
+</body>
+
+</html>

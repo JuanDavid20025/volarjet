@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VolarJet · Bienvenido</title>
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <style>
+        :root {
+            --bg: #0c1445;
+            --accent: #00d87e;
+            --text: #0c1445;
+            --text-light: #ffffff;
+            --muted: #f2f4f7;
+            --card: #ffffff;
+            --shadow: 0 16px 40px rgba(0, 0, 0, .20);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+            color: var(--text);
+            background: #f8fafc;
+        }
+
+        /* Topbar */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(12, 20, 69, .85);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+        }
+
+        .topbar__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            height: 44px;
+            width: auto;
+            display: block;
+        }
+
+        .nav {
+            margin-left: auto;
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            opacity: .95
+        }
+
+        .nav a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .cta {
+            margin-left: 8px;
+            background: var(--accent);
+            border: 0;
+            color: #fff;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 216, 126, .35);
+        }
+
+        .menu-btn {
+            display: none;
+            background: transparent;
+            border: 0;
+            color: #fff;
+            font-size: 22px;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(1000px 380px at 60% -180px, rgba(255, 255, 255, .12), transparent 70%),
+                linear-gradient(180deg, var(--bg) 0%, #0e2b78 38%, #0bbf78 100%);
+            color: #fff;
+        }
+
+        .hero__inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 16px 56px;
+            display: grid;
+            gap: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(28px, 5vw, 42px);
+            margin: 10px 0 0;
+            letter-spacing: .3px;
+        }
+
+        .hero p.lead {
+            margin: 8px 0 0;
+            font-size: clamp(14px, 2.6vw, 18px);
+            opacity: .95;
+        }
+
+        /* Buscador de vuelos */
+        .search-card {
+            background: #fff;
+            color: var(--text);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-top: 10px;
+        }
+
+        .search-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr;
+        }
+
+        .field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .field label {
+            font-size: 12px;
+            color: #334155;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #d0d5dd;
+            border-radius: 12px;
+            padding: 10px 12px;
+            background: #fff;
+        }
+
+        .control i {
+            color: #0b4f4a;
+        }
+
+        .control input,
+        .control select {
+            appearance: none;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            flex: 1;
+            font-size: 14px;
+            color: #0b1220;
+        }
+
+        .swap {
+            border: 0;
+            background: #eef7f2;
+            color: #0a7658;
+            border-radius: 10px;
+            padding: 8px 10px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        .search-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 4px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 216, 126, .35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px dashed #cbd5e1;
+            color: #0c1445;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Badges */
+        .badges {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .badge {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .25);
+            border-radius: 12px;
+            padding: 10px 12px;
+        }
+
+        .badge i {
+            font-size: 16px;
+        }
+
+        /* Secciones */
+        .section {
+            max-width: 1200px;
+            margin: 28px auto;
+            padding: 0 16px;
+        }
+
+        .section h2 {
+            margin: 0 0 12px;
+            font-size: clamp(20px, 3.4vw, 26px);
+            color: #0b1220;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .card p {
+            margin: 0;
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .card .pill {
+            display: inline-flex;
+            gap: 6px;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: #eef7f2;
+            color: #0a6c55;
+            font-weight: 700;
+        }
+
+        /* Destinos */
+        .dest-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .dest {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            min-height: 150px;
+            box-shadow: var(--shadow);
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, .15), rgba(0, 0, 0, .45)),
+                radial-gradient(400px 120px at 70% 0%, rgba(0, 216, 126, .25), transparent 60%),
+                linear-gradient(135deg, #1e293b, #0b1736);
+            color: #fff;
+            display: flex;
+            align-items: flex-end;
+            padding: 12px;
+        }
+
+        .dest strong {
+            font-size: 18px;
+        }
+
+        .dest span {
+            opacity: .85;
+            font-size: 12px;
+        }
+
+        /* CTA app / newsletter */
+        .cta-wide {
+            background: linear-gradient(90deg, var(--bg), #1342b4);
+            color: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: grid;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .cta-wide .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-line {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .input-line input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: 0;
+            outline: 0;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0c1445;
+            color: #fff;
+            margin-top: 32px;
+            box-shadow: 0 -8px 24px rgba(0, 0, 0, .15);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 16px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .fcols {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .fcols ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .fcols a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .fcols a:hover {
+            text-decoration: underline;
+        }
+
+        .copy {
+            font-size: 12px;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width:920px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .nav.open {
+                display: flex;
+                position: absolute;
+                top: 60px;
+                right: 16px;
+                left: 16px;
+                background: #0c1445;
+                border: 1px solid rgba(255, 255, 255, .2);
+                border-radius: 12px;
+                padding: 12px;
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (min-width:720px) {
+            .search-grid {
+                grid-template-columns: 1.1fr 1.1fr .9fr .9fr .9fr auto;
+                align-items: end;
+            }
+
+            .badges {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .dest-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .cta-wide {
+                grid-template-columns: 1.2fr 1fr;
+            }
+
+            .fcols {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar__inner">
+            <img src="img/logo.png" alt="VolarJet" class="logo" />
+            <button class="menu-btn" id="menuBtn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+            <nav class="nav" id="nav">
+                <a href="#"><i class="fa-solid fa-ticket"></i> Reservar</a>
+                <a href="#"><i class="fa-solid fa-user-check"></i> Check-in</a>
+                <a href="#"><i class="fa-solid fa-suitcase-rolling"></i> Gestionar</a>
+                <a href="#"><i class="fa-solid fa-satellite-dish"></i> Estado de vuelo</a>
+                <a href="#"><i class="fa-solid fa-tags"></i> Ofertas</a>
+                <button class="cta"><i class="fa-regular fa-circle-user"></i> Iniciar sesión</button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero + Buscador -->
+    <header class="hero">
+        <div class="hero__inner">
+            <div>
+                <h1>Bienvenido a VolarJet</h1>
+                <p class="lead">Tu mundo más cerca: tarifas claras, horarios flexibles y atención 24/7.</p>
+            </div>
+
+            <section class="search-card">
+                <form id="searchForm" aria-label="Buscador de vuelos" novalidate>
+                    <div class="search-grid">
+                        <div class="field">
+                            <label for="origen">Origen</label>
+                            <div class="control">
+                                <i class="fa-solid fa-plane-departure"></i>
+                                <input id="origen" name="origen" list="airports" placeholder="Bogotá (BOG)" required />
+                                <button type="button" class="swap" id="swapBtn" title="Intercambiar">⇄</button>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="destino">Destino</label>
+                            <div class="control">
+                                <i class="fa-solid fa-plane-arrival"></i>
+                                <input id="destino" name="destino" list="airports" placeholder="Medellín (MDE)"
+                                    required />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="ida">Ida</label>
+                            <div class="control">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                <input id="ida" name="ida" type="date" required />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="vuelta">Vuelta</label>
+                            <div class="control">
+                                <i class="fa-regular fa-calendar"></i>
+                                <input id="vuelta" name="vuelta" type="date" />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="pasajeros">Pasajeros</label>
+                            <div class="control">
+                                <i class="fa-solid fa-user-group"></i>
+                                <select id="pasajeros" name="pasajeros">
+                                    <option>1</option>
+                                    <option selected>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="cabina">Cabina</label>
+                            <div class="control">
+                                <i class="fa-solid fa-couch"></i>
+                                <select id="cabina" name="cabina">
+                                    <option value="eco" selected>Economy</option>
+                                    <option value="plus">Economy Plus</option>
+                                    <option value="ejec">Ejecutiva</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-actions">
+                        <button class="btn btn-outline" type="button" id="soloIdaBtn"><i
+                                class="fa-solid fa-arrow-right-long"></i> Solo ida</button>
+                        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i>
+                            Buscar vuelos</button>
+                    </div>
+                    <p id="searchMsg" class="note" aria-live="polite"></p>
+                </form>
+                <datalist id="airports">
+                    <option value="Bogotá (BOG)">
+                    <option value="Medellín (MDE)">
+                    <option value="Cartagena (CTG)">
+                    <option value="Cali (CLO)">
+                    <option value="Barranquilla (BAQ)">
+                    <option value="San Andrés (ADZ)">
+                </datalist>
+            </section>
+
+            <div class="badges">
+                <div class="badge"><i class="fa-solid fa-badge-check"></i><span>Mejor tarifa disponible</span></div>
+                <div class="badge"><i class="fa-solid fa-shield-heart"></i><span>Sin cargos ocultos</span></div>
+                <div class="badge"><i class="fa-solid fa-headset"></i><span>Atención 24/7</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Accesos rápidos -->
+    <section class="section">
+        <h2>Todo para tu viaje</h2>
+        <div class="grid-3">
+            <div class="card">
+                <span class="pill"><i class="fa-solid fa-user-check"></i> Check-in</span>
+                <h3>Haz tu check-in en minutos</h3>
+                <p>Obtén tu pase de abordar y ahorra tiempo en el aeropuerto.</p>
+            </div>
+            <div class="card">
+                <span class="pill"><i class="fa-solid fa-suitcase-rolling"></i> Gestionar</span>
+                <h3>Gestiona tu reserva</h3>
+                <p>Cambia fecha, asiento o servicios desde la app.</p>
+            </div>
+            <div class="card">
+                <span class="pill"><i class="fa-solid fa-satellite-dish"></i> Estado</span>
+                <h3>Estado de vuelo</h3>
+                <p>Consulta salidas, llegadas y alertas en tiempo real.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinos -->
+    <section class="section">
+        <h2>Destinos destacados</h2>
+        <div class="dest-grid">
+            <article class="dest">
+                <div><strong>Bogotá</strong><br><span>Desde $129.900 COP</span></div>
+            </article>
+            <article class="dest">
+                <div><strong>Medellín</strong><br><span>Desde $99.900 COP</span></div>
+            </article>
+            <article class="dest">
+                <div><strong>Cartagena</strong><br><span>Desde $159.900 COP</span></div>
+            </article>
+            <article class="dest">
+                <div><strong>Cali</strong><br><span>Desde $119.900 COP</span></div>
+            </article>
+            <article class="dest">
+                <div><strong>Barranquilla</strong><br><span>Desde $139.900 COP</span></div>
+            </article>
+            <article class="dest">
+                <div><strong>San Andrés</strong><br><span>Desde $199.900 COP</span></div>
+            </article>
+        </div>
+    </section>
+
+    <!-- CTA app + newsletter -->
+    <section class="section">
+        <div class="cta-wide">
+            <div>
+                <h2 style="margin:0 0 6px">Descarga la app VolarJet</h2>
+                <p style="margin:0 0 12px; opacity:.9">Check-in, notificaciones y tus viajes a un toque.</p>
+                <div class="row">
+                    <button class="btn btn-primary"><i class="fa-brands fa-google-play"></i> Google Play</button>
+                    <button class="btn btn-primary"><i class="fa-brands fa-app-store-ios"></i> App Store</button>
+                </div>
+            </div>
+            <div>
+                <h3 style="margin:0 0 8px; font-size:18px">Ofertas por correo</h3>
+                <div class="input-line">
+                    <input id="newsEmail" type="email" placeholder="tu@correo.com" />
+                    <button id="newsBtn" class="btn btn-outline">Suscribirme</button>
+                </div>
+                <p id="newsMsg" class="note" aria-live="polite" style="margin-top:6px"></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="fcols">
+                <div>
+                    <h4>VolarJet</h4>
+                    <ul>
+                        <li><a href="#">Acerca de nosotros</a></li>
+                        <li><a href="#">Sala de prensa</a></li>
+                        <li><a href="#">Sostenibilidad</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Ayuda</h4>
+                    <ul>
+                        <li><a href="#">Centro de ayuda</a></li>
+                        <li><a href="#">Cambios y reembolsos</a></li>
+                        <li><a href="#">Equipaje</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Síguenos</h4>
+                    <ul>
+                        <li><a href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fa-brands fa-x-twitter"></i> X</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copy">
+                <span>© <span id="yy"></span> VolarJet S.A.S.</span>
+                <span>Todos los derechos reservados</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Utilidades
+        const $ = (s, p = document) => p.querySelector(s);
+        const fmtCOP = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+
+        // Año footer
+        $('#yy').textContent = new Date().getFullYear();
+
+        // Menú móvil
+        const menuBtn = $('#menuBtn');
+        const nav = $('#nav');
+        menuBtn.addEventListener('click', () => nav.classList.toggle('open'));
+
+        // Buscador: mín. fecha hoy y sincronización ida/vuelta
+        const ida = $('#ida'), vuelta = $('#vuelta');
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const toISO = d => d.toISOString().slice(0, 10);
+        ida.min = toISO(today); vuelta.min = toISO(today);
+        ida.addEventListener('change', () => {
+            const d = new Date(ida.value + 'T00:00:00');
+            if (vuelta.value && new Date(vuelta.value) < d) vuelta.value = '';
+            vuelta.min = ida.value || toISO(today);
+        });
+
+        // Intercambiar Origen/Destino
+        $('#swapBtn').addEventListener('click', () => {
+            const o = $('#origen'), d = $('#destino');
+            [o.value, d.value] = [d.value, o.value];
+        });
+
+        // Solo ida
+        $('#soloIdaBtn').addEventListener('click', () => {
+            vuelta.value = '';
+            $('#searchMsg').textContent = 'Modo “Solo ida” activado.';
+        });
+
+        // Buscar (demo)
+        $('#searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const o = $('#origen').value.trim();
+            const d = $('#destino').value.trim();
+            if (!o || !d || !ida.value) {
+                $('#searchMsg').textContent = 'Completa origen, destino y fecha de ida.';
+                return;
+            }
+            const pax = $('#pasajeros').value;
+            const cab = $('#cabina').value;
+            $('#searchMsg').textContent = `Buscando vuelos ${o} → ${d} para ${pax} pax (${cab})...`;
+            // Aquí conectar con backend / results.html
+            // setTimeout(()=>location.href='resultados.html', 600);
+        });
+
+        // Newsletter (demo)
+        $('#newsBtn').addEventListener('click', () => {
+            const email = $('#newsEmail').value.trim();
+            const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            $('#newsMsg').textContent = ok ? '¡Listo! Te enviaremos ofertas.' : 'Ingresa un correo válido.';
+        });
+    </script>
+</body>
+
+</html>

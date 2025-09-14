@@ -1,0 +1,268 @@
+:root {
+    --bg: #0c1445;
+    --accent: #00d87e;
+    --text-dark: #0c1445;
+    --text-light: #ffffff;
+    --card: #ffffff;
+    --muted: #f2f4f7;
+    --shadow: 0 8px 24px rgba(0, 0, 0, .15);
+    --radius: 16px;
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text-dark);
+    background: linear-gradient(to bottom, var(--bg) 20%, var(--accent) 60%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 100px;
+}
+
+.vj-header {
+    margin: 140px 0 8px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+.vj-logo {
+    width: min(360px, 70vw);
+    height: auto;
+    display: block;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .25));
+}
+
+.vj-title {
+    font-size: clamp(22px, 3.6vw, 28px);
+    font-weight: 800;
+}
+
+.vj-main {
+    width: min(960px, 92vw);
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+}
+
+.vj-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px;
+}
+
+.vj-card-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.vj-flight p {
+    margin: 4px 0;
+}
+
+.vj-form {
+    display: grid;
+    gap: 14px;
+}
+
+.vj-mod-types {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+.vj-mod-type {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--muted);
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.vj-mod-type input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+}
+
+.vj-mod-type:hover {
+    border-color: rgba(0, 0, 0, .08);
+}
+
+.vj-subform {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.vj-subtitle {
+    margin: 0 0 8px;
+    font-size: 16px;
+}
+
+.vj-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr;
+}
+
+.vj-field {
+    display: grid;
+    gap: 6px;
+}
+
+.vj-field input,
+.vj-field select {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #d0d5dd;
+    outline: none;
+}
+
+.vj-field input:focus,
+.vj-field select:focus {
+    box-shadow: 0 0 0 3px rgba(0, 216, 126, .25);
+}
+
+.vj-seatmap {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(6, 44px);
+    gap: 8px;
+}
+
+.vj-seat {
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #d0d5dd;
+    background: #fff;
+    cursor: pointer;
+}
+
+.vj-seat.selected {
+    outline: 3px solid rgba(0, 216, 126, .35);
+    border-color: var(--accent);
+}
+
+.vj-seat[disabled] {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.vj-summary {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.vj-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px;
+}
+
+.vj-note {
+    color: #64748b;
+}
+
+.vj-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(0, 216, 126, .35);
+}
+
+.vj-btn.ghost {
+    background: transparent;
+    color: var(--text-dark);
+    border: 2px dashed #d0d5dd;
+    box-shadow: none;
+}
+
+.vj-btn:hover {
+    filter: brightness(.95);
+}
+
+.vj-btn:active {
+    transform: translateY(1px);
+}
+
+.vj-msg {
+    text-align: center;
+    font-weight: 700;
+}
+
+.vj-msg.success {
+    color: #0a8f5f;
+}
+
+.vj-msg.error {
+    color: #c0392b;
+}
+
+.vj-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--bg);
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, .3);
+}
+
+.vj-footer a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.vj-footer i {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+@media (min-width:900px) {
+    .vj-main {
+        grid-template-columns: .9fr 1.1fr;
+    }
+
+    .vj-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .vj-mod-types {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

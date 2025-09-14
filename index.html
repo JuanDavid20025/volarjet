@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VolarJet</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ====== TU CSS ====== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #0c1445 20%, #00d87e 60%);
+      color: #0c1445;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 100px;
+    }
+
+    .header {
+      margin-top: 160px;
+      text-align: center;
+    }
+
+    .logo {
+      width: 380px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .welcome {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 30px 0 20px;
+      color: #fff;
+      text-align: center;
+    }
+
+    form {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      background: #f0f0f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    .input-group i {
+      margin-right: 10px;
+      color: #0c1445;
+    }
+
+    .input-group input {
+      border: none;
+      background: transparent;
+      outline: none;
+      flex: 1;
+      font-size: 14px;
+      color: #0c1445;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00d87e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background .3s ease;
+    }
+
+    button:hover {
+      background: #00b26b;
+    }
+
+    .links {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .links a {
+      color: #0c1445;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background: #0c1445;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 10px 0;
+      z-index: 10;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, .3);
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    footer i {
+      font-size: 18px;
+      margin-bottom: 3px;
+    }
+
+    #msg {
+      margin-top: 12px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    #msg.success {
+      color: #00b26b;
+    }
+
+    #msg.error {
+      color: #c0392b;
+    }
+
+    @media (max-width:500px) {
+      form {
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      .welcome {
+        font-size: 1.2rem;
+      }
+
+      button {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <!-- Si tu logo está en la raíz, usa src="logo.png" -->
+    <img src="img/logo.png" class="logo" alt="Logo VolarJet">
+  </div>
+
+  <div class="welcome">¡Bienvenido!</div>
+
+  <form id="loginForm" novalidate>
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+    </div>
+
+    <div class="input-group">
+      <i class="fas fa-key"></i>
+      <input type="password" id="password" name="password" placeholder="Contraseña" required>
+    </div>
+
+    <button type="submit">Iniciar sesión</button>
+    <p id="msg" aria-live="polite"></p>
+  </form>
+
+  <div class="links">
+    <a href="#">¿Olvidaste tu contraseña?</a><br>
+    <span>¿Aún no tienes una cuenta? <a href="#">Únete aquí</a></span>
+  </div>
+
+  <footer>
+    <a href="#"><i class="fas fa-home"></i><span>Inicio</span></a>
+    <a href="#"><i class="fas fa-plane"></i><span>Tus vuelos</span></a>
+    <a href="#"><i class="fas fa-tags"></i><span>Ofertas</span></a>
+    <a href="#"><i class="fas fa-calendar-check"></i><span>Reservar</span></a>
+    <a href="#"><i class="fas fa-sign-in-alt"></i><span>Check-In</span></a>
+    <a href="#"><i class="fas fa-user"></i><span>Tu perfil</span></a>
+  </footer>
+
+  <script>
+    // === JS (reemplaza al Flask) ===
+    const VALID_EMAIL = "davidlopez@gmail.com";
+    const VALID_PASS = "1234";
+
+    const form = document.getElementById("loginForm");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const msg = document.getElementById("msg");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // evita el POST real
+
+      const emailVal = (email.value || "").trim();
+      const passVal = password.value || "";
+
+      // Validaciones básicas
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      if (!isEmail) {
+        msg.textContent = "Correo no válido.";
+        msg.className = "error";
+        msg.classList.add("error");
+        msg.classList.remove("success");
+        msg.className = "error";
+        msg.classList.add("msg", "error");
+        return;
+      }
+      if (!passVal) {
+        msg.textContent = "Ingresa tu contraseña.";
+        msg.className = "msg error";
+        return;
+      }
+
+      // Lógica de login de demo (igual al if de Flask)
+      if (emailVal === VALID_EMAIL && passVal === VALID_PASS) {
+        msg.textContent = "¡Inicio de sesión exitoso!";
+        msg.className = "msg success";
+        // Redirigir si quieres:
+        // setTimeout(()=>location.href="panel.html", 800);
+      } else {
+        msg.textContent = "Correo o contraseña incorrectos";
+        msg.className = "msg error";
+      }
+    });
+  </script>
+</body>
+
+</html>
